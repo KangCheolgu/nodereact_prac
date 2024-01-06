@@ -1,0 +1,46 @@
+
+#main-wrapper {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+#header {
+    width: 100%;
+    text-align: center;
+}
+
+#page-wrapper {
+    height: 500px;
+    margin: 0 auto;
+    border: solid 1px;
+    padding: 3px;
+}
+#board-wrapper {
+    border: solid 1px;
+}
+
+.board {
+    height: 1000px;
+}
+#side-wrapper {
+    padding: 3px;
+}
+#login-wrapper {
+    border: solid 1px;
+}
+
+#id_check_button {
+    height:58px;
+}
+
+#signup_id {
+    font-size: large;
+}
+
+#signup_id_wrapper {
+    text-align: center;
+}
+
+hr {
+    margin: 0;
+}
