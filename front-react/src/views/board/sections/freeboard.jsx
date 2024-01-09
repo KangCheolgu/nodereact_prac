@@ -1,10 +1,9 @@
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Paging from './pagination'
-import Detail from "../../detail/detail.jsx"
 import {useNavigate} from "react-router-dom";
-
+import cookie from "react-cookies"
 const FreeBoard = () => {
 
     const [boardList, setBoardList] = useState([]);
@@ -16,6 +15,14 @@ const FreeBoard = () => {
 
     const navi_detail = (content_num) => {
         navigate("/detail?c_num="+content_num);
+    }
+
+    const content_write = () => {
+        if(cookie.load("isLogin") === undefined){
+            alert("로그인후 사용해 주십시오")
+        } else {
+            navigate("/write");
+        }
     }
     
 
@@ -64,20 +71,29 @@ const FreeBoard = () => {
                     <Col md="2" style={{border:'solid 1px'}}>작성자</Col>
                     <Col style={{border:'solid 1px'}}>추천</Col>
                 </Row>
-                    {boardList && boardList.slice(offset, offset + limit).map((board) => (
-                        <Row style={{border:'solid 1px'}} onClick={(event) => {
-                            navi_detail(board.content_num)
-                        }}>
-                                <Col>{board.content_num}</Col>
-                                <Col md="8">{board.content_title}</Col>
-                                <Col md="2">{board.user_id}</Col>
-                                <Col>{board.content_like}</Col>
-                        </Row>
-                    ))}       
+                {boardList && boardList.slice(offset, offset + limit).map((board) => (
+                    <Row style={{border:'solid 1px'}} onClick={(event) => {
+                        navi_detail(board.content_num)
+                    }}>
+                            <Col>{board.content_num}</Col>
+                            <Col md="8">{board.content_title}</Col>
+                            <Col md="2">{board.user_id}</Col>
+                            <Col>{board.content_like}</Col>
+                    </Row>
+                ))}
+
+                <Row>
+                    <Col>
+                        <Paging total={boardList.length} limit={limit} page={page} setPage={setPage}>
+                        </Paging>
+                    </Col>
+                    <Col>
+                        <Button onClick={() => {
+                            content_write(0);
+                        }}>글쓰기</Button>
+                    </Col>
+                </Row>  
             </Container>
-            
-            <Paging total={boardList.length} limit={limit} page={page} setPage={setPage}>
-            </Paging>
         </div>
     );
   };

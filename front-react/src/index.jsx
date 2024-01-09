@@ -9,6 +9,7 @@ import Signup from './views/signup/signup.jsx';
 import Home from "./views/home/home.jsx";
 import Board from './views/board/board.jsx';
 import Detail from './views/detail/detail.jsx';
+import WritePage from './views/writepage/writepage.jsx';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 var hist = createBrowserHistory();
@@ -19,6 +20,7 @@ root.render(
       <Route path="/signup" element={<Signup />} />
       <Route path="/board" element={<Board />} />
       <Route path="/detail?*" element={<Detail />} />
+      <Route path='/write' element={<WritePage/>} />
 
       {/* <Route path="/signup" element={<Signup />} /> */}
       {/* <Route path="/login" element={<Login />} />

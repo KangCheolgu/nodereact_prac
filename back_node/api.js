@@ -72,13 +72,115 @@ router.post("/signup", (req, res) => {
     })
 });
 
-// 게시물 불러오기 
+// 게시물 리스트 불러오기 
 router.post("/contentsload", (req, res) => {
     const b_num = req.body.b_num;
     maria.query('select content_num, content_title, user_id, content_like ' +
      'from content_table where board_type = ? order by content_num desc', b_num,
         (err, row, fields) => {
             if(!err) {         
+                res.send(row);
+            } else {
+                console.log("err: " + err);
+                res.send('err');
+            }
+    })
+});
+
+router.post("/detailload", (req, res) => {
+    const c_num = req.body.c_num;
+    maria.query('select * from content_table where content_num = ? ' , c_num,
+        (err, row, fields) => {
+            if(!err) {         
+                res.send(row);
+            } else {
+                console.log("err: " + err);
+                res.send('err');
+            }
+    })
+});
+
+router.post("/contentswrite", (req, res) => {
+    maria.query('insert into content_table(user_id, content_title, content_detail, content_like, board_type) values ( ?, ?, ?, 0, ?);',
+     [ req.body.user_id, req.body.title, req.body.content, req.body.b_num],
+        (err, row, fields) => {
+            if(!err) {   
+                res.send(row);
+            } else {
+                console.log("err: " + err);
+                res.send('err');
+            }
+    })
+});
+
+router.post("/latest", (req, res) => {
+    maria.query('select content_num from content_table where user_id = ? order by content_num desc', req.body.user_id,
+        (err, row, fields) => {
+            if(!err) {   
+                res.send(row[0]);
+            } else {
+                console.log("err: " + err);
+                res.send('err');
+            }
+    })
+});
+
+router.post("/delete", (req, res) => {
+    maria.query('DELETE FROM content_table WHERE content_num=?', req.body.c_num,
+        (err, row, fields) => {
+            if(!err) {   
+                res.send(row);
+            } else {
+                console.log("err: " + err);
+                res.send('err');
+            }
+    })
+});
+
+router.post("/modify", (req, res) => {
+    maria.query('update content_table set content_title = ?, content_detail = ? where content_num = ?', 
+    [req.body.title, req.body.content, req.body.c_num],
+        (err, row, fields) => {
+            if(!err) {   
+                res.send(row[0]);
+            } else {
+                console.log("err: " + err);
+                res.send('err');
+            }
+    })
+});
+
+router.post("/getreplylist", (req, res) => {
+    maria.query('select * from reply_table where content_num = ?', req.body.c_num,
+        (err, row, fields) => {
+            if(!err) { 
+                console.log(row);  
+                res.send(row);
+            } else {
+                console.log("err: " + err);
+                res.send('err');
+            }
+    })
+});
+
+router.post("/writereply", (req, res) => {
+    maria.query('insert into reply_table(user_id, reply_content, content_num) values (? ,? ,?)',
+     [req.body.user_id , req.body.content, req.body.c_num ],
+        (err, row, fields) => {
+            if(!err) { 
+                console.log(row);  
+                res.send(row);
+            } else {
+                console.log("err: " + err);
+                res.send('err');
+            }
+    })
+});
+
+router.post("/deletereply", (req, res) => {
+    maria.query('DELETE FROM content_table WHERE reply_num=?', req.body.c_num,
+        (err, row, fields) => {
+            if(!err) {   
                 res.send(row);
             } else {
                 console.log("err: " + err);
