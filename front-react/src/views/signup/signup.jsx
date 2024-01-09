@@ -12,7 +12,7 @@ import Header from "../../components/header.jsx";
 import Login from "../login/login.jsx";
 import Sidebar from "../sidebar/sidebar.jsx";
 import Navi from "../nav/nav.jsx";
-import Signup_item from "./section/signup_item.jsx";
+import Signup_item from "./sections/signup_item.jsx";
   
   const Signup = () => {
     return (
